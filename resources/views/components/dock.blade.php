@@ -7,6 +7,7 @@
 
     ])
 <div class="dock-wrap">
+
     <div class="dock">
 
         {{-- MRP & Manufaktur --}}
@@ -22,8 +23,10 @@
                 <rect x="14" y="12" width="7" height="9" rx="1.5" />
                 <rect x="3" y="16" width="7" height="5" rx="1.5" />
             </svg>
+
             <span class="dock-dot"></span>
         </a>
+
 
         {{-- CRM / Penjualan --}}
         <a
@@ -36,6 +39,7 @@
                 <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
             </svg>
         </a>
+
 
         {{-- SCM / Rantai Pasok & Inventori --}}
         <a
@@ -50,6 +54,7 @@
             </svg>
         </a>
 
+
         {{-- FICO / Keuangan --}}
         <a
             href="{{ url('/FICO') }}"
@@ -61,6 +66,7 @@
                 <path d="M4 10h16M4 14h16M7 6h10a2 2 0 012 2v8a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2z" />
             </svg>
         </a>
+
 
         {{-- HRIS / SDM --}}
         <a
@@ -76,8 +82,10 @@
             </svg>
         </a>
 
+
         {{-- Separator --}}
         <div class="dock-item sep"></div>
+
 
         {{-- Analitik --}}
         <a
@@ -91,6 +99,7 @@
             </svg>
         </a>
 
+
         {{-- Pengaturan --}}
         <a
             href="#"
@@ -103,6 +112,7 @@
                 <path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8" />
             </svg>
         </a>
+
 
         {{-- Delete / Trash --}}
         <a
@@ -119,4 +129,5 @@
         </a>
 
     </div>
+
 </div>
