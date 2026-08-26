@@ -27,64 +27,41 @@
   html,body{height:100%;margin:0;}
   body{
     font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-    background:
-      radial-gradient(1200px 800px at 15% 0%, #7f8fd6 0%, transparent 55%),
-      radial-gradient(1400px 900px at 85% 15%, #d68fc9 0%, transparent 55%),
-      radial-gradient(1600px 1000px at 50% 100%, #6fb7d1 0%, transparent 60%),
-      linear-gradient(160deg,#3a4a8c 0%, #6a5aa0 45%, #3f7ea8 100%);
+    background:transparent;
     color:var(--text-1);
     overflow:hidden;
     height:100vh;
+    height:100dvh;
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ===== Menu Bar ===== */
-  .menubar{
-    height:26px;
-    background:rgba(20,20,22,0.35);
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 16px;
-    color:#fff;
-    font-size:13px;
-    font-weight:500;
-    letter-spacing:0.1px;
-    position:relative;
-    z-index:100;
-  }
-  .menubar .left, .menubar .right{display:flex;align-items:center;gap:18px;}
-  .menubar .apple{font-size:15px;line-height:0;}
-  .menubar .appname{font-weight:700;}
-  .menubar .dim{color:rgba(255,255,255,0.65);font-weight:400;}
-  .menubar .right svg{width:14px;height:14px;opacity:0.9;}
+
 
   /* ===== Desktop area ===== */
   .desktop{
-    height:calc(100vh - 26px);
+    height:100vh;
+    height:100dvh;
     display:flex;
-    align-items:center;
+    align-items:stretch;
     justify-content:center;
-    padding:26px;
+    padding:0;
   }
 
   /* ===== App Window ===== */
   .window{
     width:100%;
-    max-width:1360px;
+    max-width:none;
     height:100%;
-    max-height:860px;
+    max-height:none;
     background:var(--window-bg);
     backdrop-filter:blur(40px) saturate(180%);
     -webkit-backdrop-filter:blur(40px) saturate(180%);
-    border-radius:var(--radius-window);
-    box-shadow:0 30px 80px rgba(0,0,0,0.35), 0 2px 0 rgba(255,255,255,0.4) inset;
+    border-radius:0;
+    box-shadow:none;
     display:flex;
     flex-direction:column;
     overflow:hidden;
-    border:1px solid rgba(255,255,255,0.35);
+    border:none;
   }
 
   .titlebar{
@@ -98,10 +75,11 @@
     position:relative;
   }
   .traffic{display:flex;gap:8px;align-items:center;}
-  .traffic span{width:12px;height:12px;border-radius:50%;display:inline-block;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.1);}
+  .traffic span{width:12px;height:12px;border-radius:50%;display:inline-block;box-shadow:inset 0 0 0 0.5px rgba(0,0,0,0.1);cursor:pointer;}
   .traffic .c{background:#FF5F57;}
   .traffic .m{background:#FEBC2E;}
   .traffic .z{background:#28C840;}
+  .menu-toggle{display:none;}
   .titlebar .title{
     position:absolute;left:0;right:0;text-align:center;
     font-size:13px;font-weight:600;color:var(--text-2);
@@ -133,6 +111,9 @@
     border-right:1px solid var(--divider);
     padding:16px 10px;
     overflow-y:auto;
+  }
+  @media (min-width:861px){
+    .sidebar.hidden{display:none;}
   }
   .sidebar .profile{
     display:flex;align-items:center;gap:10px;
@@ -341,34 +322,93 @@
   ::-webkit-scrollbar{width:8px;height:8px;}
   ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.18);border-radius:4px;}
   ::-webkit-scrollbar-track{background:transparent;}
+
+  /* ===== Responsive ===== */
+  @media (max-width:1180px){
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .apps-grid{grid-template-columns:repeat(4,1fr);}
+  }
+
+  @media (max-width:1024px){
+    .row2{grid-template-columns:1fr;}
+    .sidebar{width:200px;}
+  }
+
+  @media (max-width:860px){
+    .sidebar{
+      position:fixed;
+      left:0;top:0;bottom:0;
+      z-index:50;
+      width:230px;
+      height:100%;
+      transform:translateX(-100%);
+      transition:transform .25s ease;
+      box-shadow:8px 0 24px rgba(0,0,0,0.15);
+    }
+    .sidebar.open{transform:translateX(0);}
+    .menu-toggle{
+      display:flex;
+      align-items:center;justify-content:center;
+      width:30px;height:30px;
+      border-radius:8px;
+      background:rgba(118,118,128,0.12);
+      cursor:pointer;
+      flex-shrink:0;
+      margin-right:8px;
+    }
+    .menu-toggle svg{width:16px;height:16px;}
+    .titlebar .title{position:static;flex:1;text-align:left;padding-left:2px;}
+    .titlebar .searchbox{display:none;}
+    .sidebar-backdrop{
+      display:none;
+      position:fixed;inset:0;
+      background:rgba(0,0,0,0.25);
+      z-index:40;
+    }
+    .sidebar-backdrop.show{display:block;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+    .apps-grid{grid-template-columns:repeat(3,1fr);}
+    .content{padding:16px 16px 90px;}
+    table{font-size:11.5px;}
+    th:nth-child(3), td:nth-child(3){display:none;}
+  }
+
+  @media (max-width:640px){
+
+    .content-header{flex-direction:column;align-items:flex-start;gap:10px;}
+    .content-header h1{font-size:18px;}
+    .btn-primary{width:100%;}
+    .stats-grid{grid-template-columns:1fr 1fr;gap:8px;}
+    .stat-card{padding:12px;}
+    .stat-card .value{font-size:18px;}
+    .apps-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
+    .app-tile .sq{width:46px;height:46px;}
+    th:nth-child(2), td:nth-child(2){display:none;}
+    .dock{gap:6px;padding:6px 8px;}
+    .dock-item{width:38px;height:38px;border-radius:10px;}
+    .dock-item svg{width:18px;height:18px;}
+  }
+
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr;}
+    .apps-grid{grid-template-columns:repeat(2,1fr);}
+    .titlebar{padding:0 10px;}
+
+  }
 </style>
 </head>
 <body>
 
-<div class="menubar">
-  <div class="left">
-    <span class="apple">
-      <svg width="14" height="14" viewBox="0 0 384 512" fill="#fff"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5c0 26.2 4.8 53.3 14.4 81.2 12.8 37.5 59 129.3 107.2 127.7 25.2-.6 43-17.9 75.8-17.9 31.9 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-84.1 102.6-121.6-65.2-30.7-61.7-90-61.7-92.1zM255.7 84.6c26.9-32 24.5-61.2 23.7-71.6-24 1.4-51.8 16.5-67.9 35.2-17.7 19.7-28.2 44.2-25.9 71.4 25.9 2 49.5-11.4 70.1-35z"/></svg>
-    </span>
-    <span class="appname">ERP Dashboard</span>
-    <span class="dim">File</span>
-    <span class="dim">Edit</span>
-    <span class="dim">View</span>
-    <span class="dim">Window</span>
-    <span class="dim">Help</span>
-  </div>
-  <div class="right">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.5-6.5l-2 2m-9 9l-2 2m0-13l2 2m9 9l2 2" stroke-linecap="round"/></svg>
-    <svg viewBox="0 0 24 24" fill="#fff"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0z" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M12 6v6l4 2" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
-    <span id="clock" style="font-weight:600;">Sel 26 Agu 09:41</span>
-  </div>
-</div>
+
 
 <div class="desktop">
   <div class="window">
 
     <div class="titlebar">
       <div class="traffic"><span class="c"></span><span class="m"></span><span class="z"></span></div>
+      <div class="menu-toggle" id="menuToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+      </div>
       <div class="title">ERP Dashboard — Ringkasan Perusahaan</div>
       <div class="searchbox">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
@@ -376,9 +416,11 @@
       </div>
     </div>
 
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <div class="body-area">
       <!-- SIDEBAR -->
-      <div class="sidebar">
+      <div class="sidebar" id="sidebar">
         <div class="profile">
           <div class="avatar">PT</div>
           <div class="who">
@@ -638,16 +680,34 @@
 </div>
 
 <script>
-  function updateClock(){
-    const now = new Date();
-    const hari = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'][now.getDay()];
-    const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'][now.getMonth()];
-    const jam = String(now.getHours()).padStart(2,'0');
-    const menit = String(now.getMinutes()).padStart(2,'0');
-    document.getElementById('clock').textContent = `${hari} ${now.getDate()} ${bulan} ${jam}:${menit}`;
+
+
+  const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const toggle = document.getElementById('menuToggle');
+
+  function openSidebar(){
+    sidebar.classList.remove('hidden');
+    sidebar.classList.add('open');
+    backdrop.classList.add('show');
   }
-  updateClock();
-  setInterval(updateClock, 1000*30);
+  function closeSidebar(){
+    sidebar.classList.add('hidden');
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('show');
+  }
+  function isMobile(){return window.innerWidth <= 860;}
+  toggle.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+  document.querySelector('.traffic .c').addEventListener('click', closeSidebar);
+  document.querySelector('.traffic .z').addEventListener('click', openSidebar);
+  backdrop.addEventListener('click', closeSidebar);
+  document.querySelectorAll('.navitem').forEach(item => {
+    item.addEventListener('click', () => {
+      if(window.innerWidth <= 860) closeSidebar();
+    });
+  });
 </script>
 
 </body>
