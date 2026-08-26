@@ -1,0 +1,61 @@
+/* ===== Dock Tooltip Hover ===== */
+.dock-item[data-title] {
+  position: relative;
+}
+
+/* Kotak Teks Tooltip */
+.dock-item[data-title]::after {
+  content: attr(data-title);
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  background: rgba(30, 30, 35, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.18s;
+  z-index: 100;
+}
+
+/* Panah Kecil Tooltip */
+.dock-item[data-title]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  background: rgba(30, 30, 35, 0.78);
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0.18s;
+  z-index: 99;
+}
+
+/* Tampilkan saat di-hover */
+.dock-item[data-title]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-2px) scale(1);
+}
+
+.dock-item[data-title]:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
