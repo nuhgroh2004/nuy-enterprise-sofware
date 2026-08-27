@@ -20,35 +20,26 @@ const sidebar = document.getElementById('sidebar');
   document.querySelector('.traffic .z').addEventListener('click', openSidebar);
   backdrop.addEventListener('click', closeSidebar);
 
-  // Submenu toggle
+  // Submenu toggle (for has-sub items that are not links)
   document.querySelectorAll('.navitem.has-sub').forEach(item => {
-    item.addEventListener('click', () => {
-      const submenuId = 'submenu-' + item.dataset.submenu;
-      const submenu = document.getElementById(submenuId);
+    item.addEventListener('click', (e) => {
+      // Only toggle if it's not an anchor tag (anchor tags handle navigation)
+      if(item.tagName !== 'A'){
+        e.preventDefault();
+        const submenuId = 'submenu-' + item.dataset.submenu;
+        const submenu = document.getElementById(submenuId);
 
-      if(submenu){
-        item.classList.toggle('open');
-        submenu.classList.toggle('open');
+        if(submenu){
+          item.classList.toggle('open');
+          submenu.classList.toggle('open');
+        }
       }
     });
   });
 
-  // Submenu item click
-  document.querySelectorAll('.subnavitem').forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.querySelectorAll('.subnavitem').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      if(window.innerWidth <= 860) closeSidebar();
-    });
-  });
-
-  // Main navitem click
-  document.querySelectorAll('.navitem:not(.has-sub)').forEach(item => {
+  // Close sidebar on mobile when clicking navitem links
+  document.querySelectorAll('.navitem:not(.has-sub), .subnavitem').forEach(item => {
     item.addEventListener('click', () => {
-      document.querySelectorAll('.navitem:not(.has-sub)').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelectorAll('.subnavitem').forEach(i => i.classList.remove('active'));
       if(window.innerWidth <= 860) closeSidebar();
     });
   });

@@ -139,7 +139,10 @@
     cursor:pointer;
     margin-bottom:1px;
     user-select:none;
+    text-decoration:none;
   }
+  a.navitem{text-decoration:none;color:inherit;}
+  a.subnavitem{text-decoration:none;color:inherit;}
   .navitem:hover{background:rgba(0,0,0,0.05);}
   .navitem.active{background:var(--accent);color:#fff;}
   .navitem .ico{

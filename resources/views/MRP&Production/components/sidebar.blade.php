@@ -29,7 +29,8 @@
 
 
     {{-- Dashboard --}}
-    <div class="navitem active">
+    <a href="{{ route('mrp.dashboard') }}"
+       class="navitem {{ request()->route()->getName() === 'mrp.dashboard' ? 'active' : '' }}">
 
         <span
             class="ico"
@@ -77,11 +78,12 @@
 
         Dashboard
 
-    </div>
+    </a>
 
 
     {{-- Planning --}}
-    <div class="navitem has-sub" data-submenu="planning">
+    <div class="navitem has-sub {{ request()->is('MRP/demand-planning') || request()->is('MRP/master-production-schedule') || request()->is('MRP/material-requirements') ? 'open' : '' }}"
+         data-submenu="planning">
 
         <span
             class="ico"
@@ -110,9 +112,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-planning">
+    <div class="submenu {{ request()->is('MRP/demand-planning') || request()->is('MRP/master-production-schedule') || request()->is('MRP/material-requirements') ? 'open' : '' }}"
+         id="submenu-planning">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.demand-planning') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.demand-planning' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(94,92,230,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2">
                     <path d="M3 3v18h18" stroke-linecap="round"/>
@@ -120,9 +124,10 @@
                 </svg>
             </span>
             Demand Planning
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.master-production-schedule') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.master-production-schedule' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(94,92,230,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2">
                     <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -130,9 +135,10 @@
                 </svg>
             </span>
             Master Production Schedule
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-requirements') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-requirements' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(94,92,230,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2">
                     <path d="M6 2h9l3 3v17H6z"/>
@@ -140,13 +146,14 @@
                 </svg>
             </span>
             Material Requirements
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Products --}}
-    <div class="navitem has-sub" data-submenu="products">
+    <div class="navitem has-sub {{ request()->is('MRP/products') || request()->is('MRP/bill-of-materials') || request()->is('MRP/routing') || request()->is('MRP/work-centers') ? 'open' : '' }}"
+         data-submenu="products">
 
         <span
             class="ico"
@@ -174,9 +181,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-products">
+    <div class="submenu {{ request()->is('MRP/products') || request()->is('MRP/bill-of-materials') || request()->is('MRP/routing') || request()->is('MRP/work-centers') ? 'open' : '' }}"
+         id="submenu-products">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.products') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.products' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,159,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2">
                     <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
@@ -184,9 +193,10 @@
                 </svg>
             </span>
             Products
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.bill-of-materials') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.bill-of-materials' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,159,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
@@ -194,9 +204,10 @@
                 </svg>
             </span>
             Bill of Materials
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.routing') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.routing' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,159,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2">
                     <circle cx="12" cy="12" r="3"/>
@@ -204,9 +215,10 @@
                 </svg>
             </span>
             Routing
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.work-centers') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.work-centers' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,159,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2">
                     <rect x="2" y="7" width="20" height="14" rx="2"/>
@@ -214,13 +226,14 @@
                 </svg>
             </span>
             Work Centers
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Production --}}
-    <div class="navitem has-sub" data-submenu="production">
+    <div class="navitem has-sub {{ request()->is('MRP/production-orders') || request()->is('MRP/production-schedule') || request()->is('MRP/material-consumption') || request()->is('MRP/work-orders') || request()->is('MRP/production-results') ? 'open' : '' }}"
+         data-submenu="production">
 
         <span
             class="ico"
@@ -255,18 +268,21 @@
 
     </div>
 
-    <div class="submenu" id="submenu-production">
+    <div class="submenu {{ request()->is('MRP/production-orders') || request()->is('MRP/production-schedule') || request()->is('MRP/material-consumption') || request()->is('MRP/work-orders') || request()->is('MRP/production-results') ? 'open' : '' }}"
+         id="submenu-production">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-orders') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-orders' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(48,209,88,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/>
                 </svg>
             </span>
             Production Orders
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-schedule') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-schedule' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(48,209,88,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -274,9 +290,10 @@
                 </svg>
             </span>
             Production Schedule
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-consumption') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-consumption' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(48,209,88,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2">
                     <path d="M6 2h9l3 3v17H6z"/>
@@ -284,9 +301,10 @@
                 </svg>
             </span>
             Material Consumption
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.work-orders') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.work-orders' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(48,209,88,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
@@ -295,9 +313,10 @@
                 </svg>
             </span>
             Work Orders
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-results') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-results' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(48,209,88,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
@@ -305,13 +324,14 @@
                 </svg>
             </span>
             Production Results
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Inventory --}}
-    <div class="navitem has-sub" data-submenu="inventory">
+    <div class="navitem has-sub {{ request()->is('MRP/material-availability') || request()->is('MRP/material-issue') || request()->is('MRP/finished-goods') || request()->is('MRP/stock-movement') ? 'open' : '' }}"
+         data-submenu="inventory">
 
         <span
             class="ico"
@@ -339,9 +359,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-inventory">
+    <div class="submenu {{ request()->is('MRP/material-availability') || request()->is('MRP/material-issue') || request()->is('MRP/finished-goods') || request()->is('MRP/stock-movement') ? 'open' : '' }}"
+         id="submenu-inventory">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-availability') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-availability' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(100,210,255,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2">
                     <path d="M9 12l2 2 4-4"/>
@@ -349,9 +371,10 @@
                 </svg>
             </span>
             Material Availability
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-issue') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-issue' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(100,210,255,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2">
                     <path d="M12 5v14M5 12h14"/>
@@ -359,9 +382,10 @@
                 </svg>
             </span>
             Material Issue
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.finished-goods') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.finished-goods' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(100,210,255,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2">
                     <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
@@ -370,16 +394,17 @@
                 </svg>
             </span>
             Finished Goods
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.stock-movement') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.stock-movement' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(100,210,255,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2">
                     <path d="M7 17l9.2-9.2M17 17V7H7"/>
                 </svg>
             </span>
             Stock Movement
-        </div>
+        </a>
 
     </div>
 
@@ -391,7 +416,8 @@
 
 
     {{-- Quality --}}
-    <div class="navitem has-sub" data-submenu="quality">
+    <div class="navitem has-sub {{ request()->is('MRP/quality-inspection') || request()->is('MRP/inspection-results') || request()->is('MRP/non-conformance') || request()->is('MRP/rework') ? 'open' : '' }}"
+         data-submenu="quality">
 
         <span
             class="ico"
@@ -424,9 +450,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-quality">
+    <div class="submenu {{ request()->is('MRP/quality-inspection') || request()->is('MRP/inspection-results') || request()->is('MRP/non-conformance') || request()->is('MRP/rework') ? 'open' : '' }}"
+         id="submenu-quality">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.quality-inspection') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.quality-inspection' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,69,58,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2">
                     <path d="M9 12l2 2 4-4"/>
@@ -434,9 +462,10 @@
                 </svg>
             </span>
             Quality Inspection
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.inspection-results') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.inspection-results' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,69,58,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
@@ -444,9 +473,10 @@
                 </svg>
             </span>
             Inspection Results
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.non-conformance') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.non-conformance' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,69,58,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2">
                     <circle cx="12" cy="12" r="10"/>
@@ -454,9 +484,10 @@
                 </svg>
             </span>
             Non-Conformance
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.rework') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.rework' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,69,58,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2">
                     <path d="M1 4v6h6"/>
@@ -464,13 +495,14 @@
                 </svg>
             </span>
             Rework
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Maintenance --}}
-    <div class="navitem has-sub" data-submenu="maintenance">
+    <div class="navitem has-sub {{ request()->is('MRP/equipment') || request()->is('MRP/maintenance-schedule') || request()->is('MRP/maintenance-history') ? 'open' : '' }}"
+         data-submenu="maintenance">
 
         <span
             class="ico"
@@ -500,9 +532,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-maintenance">
+    <div class="submenu {{ request()->is('MRP/equipment') || request()->is('MRP/maintenance-schedule') || request()->is('MRP/maintenance-history') ? 'open' : '' }}"
+         id="submenu-maintenance">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.equipment') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.equipment' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(142,142,147,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2">
                     <rect x="2" y="7" width="20" height="14" rx="2"/>
@@ -510,9 +544,10 @@
                 </svg>
             </span>
             Equipment
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.maintenance-schedule') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.maintenance-schedule' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(142,142,147,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -520,9 +555,10 @@
                 </svg>
             </span>
             Maintenance Schedule
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.maintenance-history') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.maintenance-history' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(142,142,147,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2">
                     <path d="M12 20h9"/>
@@ -530,13 +566,14 @@
                 </svg>
             </span>
             Maintenance History
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Costing --}}
-    <div class="navitem has-sub" data-submenu="costing">
+    <div class="navitem has-sub {{ request()->is('MRP/product-cost') || request()->is('MRP/material-cost') || request()->is('MRP/labor-cost') || request()->is('MRP/overhead') || request()->is('MRP/production-cost') ? 'open' : '' }}"
+         data-submenu="costing">
 
         <span
             class="ico"
@@ -565,9 +602,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-costing">
+    <div class="submenu {{ request()->is('MRP/product-cost') || request()->is('MRP/material-cost') || request()->is('MRP/labor-cost') || request()->is('MRP/overhead') || request()->is('MRP/production-cost') ? 'open' : '' }}"
+         id="submenu-costing">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.product-cost') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.product-cost' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,214,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
                     <path d="M21 8l-9-5-9 5 9 5 9-5z"/>
@@ -575,9 +614,10 @@
                 </svg>
             </span>
             Product Cost
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-cost') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-cost' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,214,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
                     <path d="M6 2h9l3 3v17H6z"/>
@@ -585,9 +625,10 @@
                 </svg>
             </span>
             Material Cost
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.labor-cost') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.labor-cost' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,214,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
                     <circle cx="12" cy="8" r="5"/>
@@ -595,9 +636,10 @@
                 </svg>
             </span>
             Labor Cost
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.overhead') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.overhead' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,214,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
                     <circle cx="12" cy="12" r="10"/>
@@ -605,22 +647,24 @@
                 </svg>
             </span>
             Overhead
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-cost') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-cost' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,214,10,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/>
                 </svg>
             </span>
             Production Cost
-        </div>
+        </a>
 
     </div>
 
 
     {{-- Reports --}}
-    <div class="navitem has-sub" data-submenu="reports">
+    <div class="navitem has-sub {{ request()->is('MRP/production-report') || request()->is('MRP/production-efficiency') || request()->is('MRP/waste-scrap') || request()->is('MRP/machine-utilization') ? 'open' : '' }}"
+         data-submenu="reports">
 
         <span
             class="ico"
@@ -649,18 +693,21 @@
 
     </div>
 
-    <div class="submenu" id="submenu-reports">
+    <div class="submenu {{ request()->is('MRP/production-report') || request()->is('MRP/production-efficiency') || request()->is('MRP/waste-scrap') || request()->is('MRP/machine-utilization') ? 'open' : '' }}"
+         id="submenu-reports">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-report') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-report' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <path d="M4 19h16M8 19V9m4 10V5m4 14v-7"/>
                 </svg>
             </span>
             Production Report
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.material-consumption') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.material-consumption' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <path d="M6 2h9l3 3v17H6z"/>
@@ -668,9 +715,10 @@
                 </svg>
             </span>
             Material Consumption
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-efficiency') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-efficiency' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
@@ -678,9 +726,10 @@
                 </svg>
             </span>
             Production Efficiency
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.waste-scrap') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.waste-scrap' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <circle cx="12" cy="12" r="10"/>
@@ -688,9 +737,10 @@
                 </svg>
             </span>
             Waste &amp; Scrap
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.machine-utilization') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.machine-utilization' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <circle cx="12" cy="12" r="3"/>
@@ -698,16 +748,17 @@
                 </svg>
             </span>
             Machine Utilization
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-cost') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-cost' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(255,55,95,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2">
                     <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round"/>
                 </svg>
             </span>
             Production Cost
-        </div>
+        </a>
 
     </div>
 
@@ -719,7 +770,8 @@
 
 
     {{-- Settings --}}
-    <div class="navitem has-sub" data-submenu="settings">
+    <div class="navitem has-sub {{ request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
+         data-submenu="settings">
 
         <span
             class="ico"
@@ -751,9 +803,11 @@
 
     </div>
 
-    <div class="submenu" id="submenu-settings">
+    <div class="submenu {{ request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
+         id="submenu-settings">
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-settings') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-settings' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
                     <circle cx="12" cy="12" r="3"/>
@@ -761,9 +815,10 @@
                 </svg>
             </span>
             Production Settings
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.production-calendar') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.production-calendar' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -771,9 +826,10 @@
                 </svg>
             </span>
             Production Calendar
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.units') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.units' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
                     <path d="M3 3h18v18H3z"/>
@@ -781,18 +837,16 @@
                 </svg>
             </span>
             Units
-        </div>
+        </a>
 
-        <div class="subnavitem">
+        <a href="{{ route('mrp.numbering') }}"
+           class="subnavitem {{ request()->route()->getName() === 'mrp.numbering' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
                     <path d="M4 7h16M4 12h16M4 17h10"/>
                 </svg>
             </span>
             Numbering
-        </div>
-
+        </a>
     </div>
-
-
 </div>
