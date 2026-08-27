@@ -56,7 +56,7 @@
         <div class="body-area">
 
             {{-- SIDEBAR --}}
-            @include('MRP&Production.components.sidebar')
+            @include('FICO.components.sidebar')
 
             {{-- MAIN CONTENT --}}
             <div class="content">
