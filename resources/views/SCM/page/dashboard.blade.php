@@ -14,7 +14,7 @@
 
 <body>
 
-    @include('MRP&Production.components.dashboard')
+    @include('SCM.components.dashboard')
 
 
 </body>
