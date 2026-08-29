@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/', function () {
+    return view('landing.index');
+})->name('landing');
 
 // MRP & Production
 Route::get('/MRP', function () {return view('MRP&Production.page.dashboard');})->name('mrp.dashboard');
