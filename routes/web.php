@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BomController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,10 @@ Route::get('/MRP/master-production-schedule', [PlanningController::class, 'maste
 Route::get('/MRP/material-requirements', [PlanningController::class, 'materialRequirements'])->name('mrp.material-requirements');
 Route::get('/MRP/products', [ProductController::class, 'index'])->name('mrp.products');
 Route::get('/MRP/products/{product}', [ProductController::class, 'show'])->name('mrp.products.show');
-Route::get('/MRP/bill-of-materials', function () {return view('MRP&Production.page.bill-of-materials');})->name('mrp.bill-of-materials');
+Route::get('/MRP/bill-of-materials', [BomController::class, 'index'])->name('mrp.bill-of-materials');
+Route::get('/MRP/bill-of-materials/create', [BomController::class, 'create'])->name('mrp.bill-of-materials.create');
+Route::get('/MRP/bill-of-materials/{bom}', [BomController::class, 'show'])->name('mrp.bill-of-materials.show');
+Route::get('/MRP/bill-of-materials/{bom}/edit', [BomController::class, 'edit'])->name('mrp.bill-of-materials.edit');
 Route::get('/MRP/routing', function () {return view('MRP&Production.page.routing');})->name('mrp.routing');
 Route::get('/MRP/work-centers', function () {return view('MRP&Production.page.work-centers');})->name('mrp.work-centers');
 Route::get('/MRP/production-orders', function () {return view('MRP&Production.page.production-orders');})->name('mrp.production-orders');

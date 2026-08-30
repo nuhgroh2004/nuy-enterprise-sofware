@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BomHeader extends Model
@@ -15,6 +16,7 @@ class BomHeader extends Model
 
     protected $fillable = [
         'company_id',
+        'plant_id',
         'product_id',
         'code',
         'name',
@@ -32,6 +34,11 @@ class BomHeader extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function plant(): BelongsTo
+    {
+        return $this->belongsTo(Plant::class);
     }
 
     public function product(): BelongsTo
@@ -52,5 +59,15 @@ class BomHeader extends Model
     public function activeVersion(): HasOne
     {
         return $this->hasOne(BomVersion::class)->where('is_default', true);
+    }
+
+    public function latestVersion(): HasOne
+    {
+        return $this->hasOne(BomVersion::class)->latest('id');
+    }
+
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLog::class, 'auditable');
     }
 }

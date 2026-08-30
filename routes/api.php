@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\BomApiController;
+use App\Http\Controllers\BomComponentController;
+use App\Http\Controllers\BomVersionController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -65,3 +68,57 @@ Route::prefix('products')->group(function () {
 Route::get('/product-types', [ProductController::class, 'productTypes']);
 Route::get('/product-categories', [ProductController::class, 'productCategories']);
 Route::get('/uoms', [ProductController::class, 'uoms']);
+
+/*
+|--------------------------------------------------------------------------
+| BOM API Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('boms')->group(function () {
+
+    // BOM CRUD
+    Route::get('/', [BomApiController::class, 'index']);
+    Route::post('/', [BomApiController::class, 'store']);
+    Route::get('/{bom}', [BomApiController::class, 'show']);
+    Route::put('/{bom}', [BomApiController::class, 'update']);
+    Route::post('/{bom}/archive', [BomApiController::class, 'archive']);
+    Route::post('/{bom}/restore', [BomApiController::class, 'restore']);
+    Route::post('/{bom}/duplicate', [BomApiController::class, 'duplicate']);
+    Route::get('/{bom}/where-used', [BomApiController::class, 'whereUsed']);
+    Route::get('/{bom}/compare', [BomVersionController::class, 'compare']);
+    Route::get('/{bom}/history', [BomVersionController::class, 'history']);
+
+    // Version Management
+    Route::post('/{bom}/versions', [BomVersionController::class, 'store']);
+});
+
+Route::prefix('bom-versions')->group(function () {
+    Route::put('/{version}', [BomVersionController::class, 'update']);
+    Route::post('/{version}/submit', [BomVersionController::class, 'submit']);
+    Route::post('/{version}/approve', [BomVersionController::class, 'approve']);
+    Route::post('/{version}/expire', [BomVersionController::class, 'expire']);
+    Route::post('/{version}/primary', [BomVersionController::class, 'setPrimary']);
+});
+
+Route::prefix('bom-versions')->group(function () {
+    Route::post('/{version}/components', [BomComponentController::class, 'store']);
+});
+
+Route::prefix('bom-components')->group(function () {
+    Route::put('/{component}', [BomComponentController::class, 'update']);
+    Route::post('/{component}/destroy', [BomComponentController::class, 'destroy']);
+    Route::post('/{component}/substitutes', [BomComponentController::class, 'addSubstitute']);
+});
+
+Route::prefix('bom-substitutes')->group(function () {
+    Route::put('/{substitute}', [BomComponentController::class, 'updateSubstitute']);
+    Route::post('/{substitute}/destroy', [BomComponentController::class, 'removeSubstitute']);
+});
+
+Route::get('/products/search', [BomApiController::class, 'productSearch']);
+Route::get('/uom-list', [BomApiController::class, 'uomList']);
+Route::get('/companies', [BomApiController::class, 'companies']);
+Route::get('/plants', [BomApiController::class, 'plants']);
+Route::get('/production-processes', [BomApiController::class, 'productionProcesses']);
+Route::get('/routing-versions', [BomApiController::class, 'routingVersions']);

@@ -16,11 +16,16 @@ class BomSubstitute extends Model
         'uom_id',
         'conversion_factor',
         'is_preferred',
+        'priority',
+        'active',
+        'notes',
     ];
 
     protected $casts = [
         'conversion_factor' => 'decimal:6',
         'is_preferred' => 'boolean',
+        'priority' => 'integer',
+        'active' => 'boolean',
     ];
 
     protected $table = 'bom_substitutes';

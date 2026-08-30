@@ -20,6 +20,11 @@ class BomComponent extends Model
         'yield_percentage',
         'is_fixed_quantity',
         'is_critical',
+        'operation_sequence',
+        'backflush',
+        'is_optional',
+        'alternative_group',
+        'substitute_policy',
         'notes',
         'sort_order',
     ];
@@ -30,7 +35,10 @@ class BomComponent extends Model
         'yield_percentage' => 'decimal:2',
         'is_fixed_quantity' => 'boolean',
         'is_critical' => 'boolean',
+        'backflush' => 'boolean',
+        'is_optional' => 'boolean',
         'sort_order' => 'integer',
+        'operation_sequence' => 'integer',
     ];
 
     protected $table = 'bom_components';
@@ -52,6 +60,6 @@ class BomComponent extends Model
 
     public function substitutes(): HasMany
     {
-        return $this->hasMany(BomSubstitute::class);
+        return $this->hasMany(BomSubstitute::class)->orderBy('priority');
     }
 }
