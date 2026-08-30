@@ -34,6 +34,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductCost;
 use App\Models\ProductType;
+use App\Models\ProductUom;
 use App\Models\ProductionCalendar;
 use App\Models\ProductionCostTransaction;
 use App\Models\ProductionOrder;
@@ -65,6 +66,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->seedCoreMasterData();
         $this->seedProductsAndBom();
+        $this->seedProductUoms();
         $this->seedRouting();
         $this->seedPlanning();
         $this->seedProduction();
@@ -665,6 +667,79 @@ class DatabaseSeeder extends Seeder
             ['bom_version_id' => $bomShoeV1->id, 'product_id' => $prodTissue->id],
             ['uom_id' => $uomPcs->id, 'quantity' => 2, 'scrap_percentage' => 0, 'yield_percentage' => 100, 'sort_order' => 7]
         );
+    }
+
+    private function seedProductUoms(): void
+    {
+        $uomPcs = UnitOfMeasure::where('code', 'PCS')->first();
+        $uomPair = UnitOfMeasure::where('code', 'PAIR')->first();
+        $uomKg = UnitOfMeasure::where('code', 'KG')->first();
+        $uomM = UnitOfMeasure::where('code', 'M')->first();
+        $uomM2 = UnitOfMeasure::where('code', 'M2')->first();
+        $uomRoll = UnitOfMeasure::where('code', 'ROLL')->first();
+        $uomBox = UnitOfMeasure::where('code', 'BOX')->first();
+
+        // Finished Goods: Classic Leather Shoe (base UOM: PAIR)
+        $prodShoe = Product::where('code', 'FG-SHOE-001')->first();
+        if ($prodShoe) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodShoe->id, 'uom_id' => $uomPcs->id, 'usage_type' => 'sales'],
+                ['conversion_factor' => 1, 'is_default' => true]
+            );
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodShoe->id, 'uom_id' => $uomBox->id, 'usage_type' => 'sales'],
+                ['conversion_factor' => 12, 'is_default' => false]
+            );
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodShoe->id, 'uom_id' => $uomPcs->id, 'usage_type' => 'production'],
+                ['conversion_factor' => 1, 'is_default' => true]
+            );
+        }
+
+        // Raw Material: Leather (base UOM: M2)
+        $prodLeather = Product::where('code', 'RM-LEATHER-001')->first();
+        if ($prodLeather) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodLeather->id, 'uom_id' => $uomM2->id, 'usage_type' => 'purchasing'],
+                ['conversion_factor' => 1, 'is_default' => true]
+            );
+        }
+
+        // Raw Material: Rubber (base UOM: KG)
+        $prodRubber = Product::where('code', 'RM-RUBBER-001')->first();
+        if ($prodRubber) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodRubber->id, 'uom_id' => $uomKg->id, 'usage_type' => 'purchasing'],
+                ['conversion_factor' => 1, 'is_default' => true]
+            );
+        }
+
+        // Component: Sole (base UOM: PAIR)
+        $prodSole = Product::where('code', 'CMP-SOLE-001')->first();
+        if ($prodSole) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodSole->id, 'uom_id' => $uomPcs->id, 'usage_type' => 'production'],
+                ['conversion_factor' => 2, 'is_default' => false]
+            );
+        }
+
+        // Consumable: Thread (base UOM: ROLL)
+        $prodThread = Product::where('code', 'CON-THREAD-001')->first();
+        if ($prodThread) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodThread->id, 'uom_id' => $uomRoll->id, 'usage_type' => 'purchasing'],
+                ['conversion_factor' => 1, 'is_default' => true]
+            );
+        }
+
+        // Packaging: Box (base UOM: PCS)
+        $prodBox = Product::where('code', 'PKG-BOX-001')->first();
+        if ($prodBox) {
+            ProductUom::updateOrCreate(
+                ['product_id' => $prodBox->id, 'uom_id' => $uomBox->id, 'usage_type' => 'purchasing'],
+                ['conversion_factor' => 12, 'is_default' => false]
+            );
+        }
     }
 
     private function seedRouting(): void

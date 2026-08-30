@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PlanningController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -12,10 +14,11 @@ Route::get('/', function () {
 
 // MRP & Production
 Route::get('/MRP', function () {return view('MRP&Production.page.dashboard');})->name('mrp.dashboard');
-Route::get('/MRP/demand-planning', function () {return view('MRP&Production.page.demand-planning');})->name('mrp.demand-planning');
-Route::get('/MRP/master-production-schedule', function () {return view('MRP&Production.page.master-production-schedule');})->name('mrp.master-production-schedule');
-Route::get('/MRP/material-requirements', function () {return view('MRP&Production.page.material-requirements');})->name('mrp.material-requirements');
-Route::get('/MRP/products', function () {return view('MRP&Production.page.products');})->name('mrp.products');
+Route::get('/MRP/demand-planning', [PlanningController::class, 'demandPlanning'])->name('mrp.demand-planning');
+Route::get('/MRP/master-production-schedule', [PlanningController::class, 'masterProductionSchedule'])->name('mrp.master-production-schedule');
+Route::get('/MRP/material-requirements', [PlanningController::class, 'materialRequirements'])->name('mrp.material-requirements');
+Route::get('/MRP/products', [ProductController::class, 'index'])->name('mrp.products');
+Route::get('/MRP/products/{product}', [ProductController::class, 'show'])->name('mrp.products.show');
 Route::get('/MRP/bill-of-materials', function () {return view('MRP&Production.page.bill-of-materials');})->name('mrp.bill-of-materials');
 Route::get('/MRP/routing', function () {return view('MRP&Production.page.routing');})->name('mrp.routing');
 Route::get('/MRP/work-centers', function () {return view('MRP&Production.page.work-centers');})->name('mrp.work-centers');

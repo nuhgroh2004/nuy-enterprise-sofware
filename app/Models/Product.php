@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -38,6 +40,8 @@ class Product extends Model
         'safety_stock',
         'lead_time_days',
         'status',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
@@ -57,6 +61,10 @@ class Product extends Model
         'safety_stock' => 'decimal:4',
         'lead_time_days' => 'integer',
     ];
+
+    /* ============================================================
+     | RELATIONSHIPS
+     ============================================================ */
 
     public function company(): BelongsTo
     {
@@ -81,6 +89,11 @@ class Product extends Model
     public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function productUoms(): HasMany
+    {
+        return $this->hasMany(ProductUom::class);
     }
 
     public function bomHeaders(): HasMany
@@ -116,5 +129,75 @@ class Product extends Model
     public function materialConsumptions(): HasMany
     {
         return $this->hasMany(MaterialConsumption::class);
+    }
+
+    public function auditLogs(): MorphMany
+    {
+        return $this->morphMany(AuditLog::class, 'auditable');
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'created_by');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'updated_by');
+    }
+
+    /* ============================================================
+     | SCOPES
+     ============================================================ */
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        if (!$term) {
+            return $query;
+        }
+
+        $search = "%{$term}%";
+
+        return $query->where(function ($q) use ($search) {
+            $driver = \Illuminate\Support\Facades\DB::getDriverName();
+            if ($driver === 'sqlite') {
+                $q->whereRaw("LOWER(code) LIKE LOWER(?)", [$search])
+                    ->orWhereRaw("LOWER(name) LIKE LOWER(?)", [$search])
+                    ->orWhereRaw("LOWER(sku) LIKE LOWER(?)", [$search])
+                    ->orWhereRaw("LOWER(barcode) LIKE LOWER(?)", [$search]);
+            } else {
+                $q->where('code', 'ilike', $search)
+                    ->orWhere('name', 'ilike', $search)
+                    ->orWhere('sku', 'ilike', $search)
+                    ->orWhere('barcode', 'ilike', $search);
+            }
+        });
+    }
+
+    /* ============================================================
+     | HELPERS
+     ============================================================ */
+
+    public function isUsedInTransactions(): bool
+    {
+        return $this->bomComponents()->exists()
+            || $this->productionOrders()->whereIn('status', ['draft', 'planned', 'released', 'in_progress'])->exists()
+            || $this->stockBalances()->where('quantity', '>', 0)->exists()
+            || $this->materialConsumptions()->exists();
+    }
+
+    public function canBeDeleted(): bool
+    {
+        return !$this->isUsedInTransactions();
+    }
+
+    public function getActiveVariantsCountAttribute(): int
+    {
+        return $this->variants()->where('is_active', true)->count();
     }
 }
