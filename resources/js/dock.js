@@ -10,6 +10,13 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
   const dockWrap = document.querySelector('.dock-wrap');
   if (!dockWrap) return;
 
+  const autoHide = localStorage.getItem('dockAutoHide') !== 'false';
+
+  if (!autoHide) {
+    dockWrap.classList.add('show');
+    return;
+  }
+
   let hideTimeout;
   const TRIGGER_ZONE = 60;
   const INITIAL_SHOW = 2000;

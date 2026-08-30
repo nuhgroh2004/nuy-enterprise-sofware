@@ -44,6 +44,15 @@
         });
     });
 
+    // ===== Dock Auto-Hide Toggle =====
+    const dockAutoHide = document.getElementById('dockAutoHide');
+    if (dockAutoHide) {
+        dockAutoHide.checked = localStorage.getItem('dockAutoHide') !== 'false';
+        dockAutoHide.addEventListener('change', () => {
+            localStorage.setItem('dockAutoHide', dockAutoHide.checked);
+        });
+    }
+
     // ===== Search Filter =====
     const searchInput = document.getElementById('gsSearch');
     if (searchInput) {

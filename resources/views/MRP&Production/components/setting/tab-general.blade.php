@@ -105,5 +105,16 @@
                 <span class="gs-toggle-slider"></span>
             </label>
         </div>
+        <div class="gs-divider"></div>
+        <div class="gs-row">
+            <div class="gs-row-info">
+                <div class="gs-row-label">Dock Auto-Hide</div>
+                <div class="gs-row-desc">Sembunyikan dock otomatis saat tidak di-hover</div>
+            </div>
+            <label class="gs-toggle">
+                <input type="checkbox" checked id="dockAutoHide">
+                <span class="gs-toggle-slider"></span>
+            </label>
+        </div>
     </div>
 </div>
