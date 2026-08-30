@@ -340,9 +340,15 @@
     bottom:14px;left:0;right:0;
     display:flex;justify-content:center;
     pointer-events:none;
+    z-index:50;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .dock-wrap.show{
+    opacity:1;
   }
   .dock{
-    pointer-events:all;
+    pointer-events:none;
     display:flex;
     align-items:flex-end;
     gap:10px;
@@ -353,6 +359,14 @@
     border-radius:18px;
     border:1px solid rgba(255,255,255,0.4);
     box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    transform:translateY(30px);
+    opacity:0;
+    transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+  }
+  .dock-wrap.show .dock{
+    pointer-events:auto;
+    transform:translateY(0);
+    opacity:1;
   }
   .dock-item{
     width:46px;height:46px;border-radius:12px;
