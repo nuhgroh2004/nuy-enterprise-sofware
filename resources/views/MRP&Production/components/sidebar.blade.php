@@ -770,7 +770,7 @@
 
 
     {{-- Settings --}}
-    <div class="navitem has-sub {{ request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
+    <div class="navitem has-sub {{ request()->is('MRP/general-settings') || request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
          data-submenu="settings">
 
         <span
@@ -803,8 +803,19 @@
 
     </div>
 
-    <div class="submenu {{ request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
+    <div class="submenu {{ request()->is('MRP/general-settings') || request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
          id="submenu-settings">
+
+        <a href=""
+           class="subnavitem {{ request()->route()->getName() === 'mrp.general-settings' ? 'active' : '' }}">
+            <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>
+                </svg>
+            </span>
+            General Settings
+        </a>
 
         <a href="{{ route('mrp.production-settings') }}"
            class="subnavitem {{ request()->route()->getName() === 'mrp.production-settings' ? 'active' : '' }}">

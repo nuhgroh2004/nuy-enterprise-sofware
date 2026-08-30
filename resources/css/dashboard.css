@@ -346,7 +346,6 @@
   }
   .dock-wrap.show{
     opacity:1;
-    pointer-events:auto;
   }
   .dock{
     pointer-events:none;

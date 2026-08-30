@@ -28,9 +28,11 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
 
   document.addEventListener('mousemove', (e) => {
     const fromBottom = window.innerHeight - e.clientY;
-    if (fromBottom <= TRIGGER_ZONE || dockWrap.contains(e.target)) {
+    const sidebar = document.getElementById('sidebar');
+    const overSidebar = sidebar && sidebar.contains(e.target);
+    if ((fromBottom <= TRIGGER_ZONE || dockWrap.contains(e.target)) && !overSidebar) {
       showDock();
-    } else {
+    } else if (!overSidebar) {
       scheduleHide();
     }
   });

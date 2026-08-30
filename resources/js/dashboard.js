@@ -23,7 +23,6 @@ const sidebar = document.getElementById('sidebar');
   // Submenu toggle (for has-sub items that are not links)
   document.querySelectorAll('.navitem.has-sub').forEach(item => {
     item.addEventListener('click', (e) => {
-      // Only toggle if it's not an anchor tag (anchor tags handle navigation)
       if(item.tagName !== 'A'){
         e.preventDefault();
         const submenuId = 'submenu-' + item.dataset.submenu;
@@ -32,6 +31,22 @@ const sidebar = document.getElementById('sidebar');
         if(submenu){
           item.classList.toggle('open');
           submenu.classList.toggle('open');
+
+          if(submenu.classList.contains('open')){
+            requestAnimationFrame(() => {
+              const sidebarEl = document.getElementById('sidebar');
+              const itemRect = item.getBoundingClientRect();
+              const sidebarRect = sidebarEl.getBoundingClientRect();
+              const submenuBottom = item.offsetTop + submenu.scrollHeight;
+
+              if(submenuBottom > sidebarEl.scrollTop + sidebarRect.height){
+                sidebarEl.scrollTo({
+                  top: submenuBottom - sidebarRect.height + 16,
+                  behavior: 'smooth'
+                });
+              }
+            });
+          }
         }
       }
     });
