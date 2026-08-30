@@ -12,10 +12,11 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
 
   const autoHide = localStorage.getItem('dockAutoHide') !== 'false';
 
-  if (!autoHide) {
+  if (autoHide) {
+    dockWrap.classList.add('show');
+  } else {
     dockWrap.classList.add('show');
     dockWrap.classList.add('always-show');
-    return;
   }
 
   let hideTimeout;
@@ -30,11 +31,13 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
   function scheduleHide(delay) {
     clearTimeout(hideTimeout);
     hideTimeout = setTimeout(() => {
+      if (dockWrap.classList.contains('always-show')) return;
       dockWrap.classList.remove('show');
     }, delay || 250);
   }
 
   document.addEventListener('mousemove', (e) => {
+    if (dockWrap.classList.contains('always-show')) return;
     const fromBottom = window.innerHeight - e.clientY;
     const sidebar = document.getElementById('sidebar');
     const overSidebar = sidebar && sidebar.contains(e.target);
@@ -45,12 +48,16 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
     }
   });
 
-  dockWrap.addEventListener('mouseleave', scheduleHide);
+  dockWrap.addEventListener('mouseleave', () => {
+    if (dockWrap.classList.contains('always-show')) return;
+    scheduleHide();
+  });
   dockWrap.addEventListener('mouseenter', showDock);
 
   // Touch: tap to toggle
   if ('ontouchstart' in window) {
     document.addEventListener('touchstart', (e) => {
+      if (dockWrap.classList.contains('always-show')) return;
       if (dockWrap.contains(e.target)) {
         showDock();
       } else {

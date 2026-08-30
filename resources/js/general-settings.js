@@ -54,7 +54,6 @@
             if (dockWrap) {
                 if (dockAutoHide.checked) {
                     dockWrap.classList.remove('always-show');
-                    dockWrap.classList.remove('show');
                 } else {
                     dockWrap.classList.add('always-show');
                     dockWrap.classList.add('show');

@@ -347,6 +347,9 @@
   .dock-wrap.show{
     opacity:1;
   }
+  .dock-wrap.always-show{
+    opacity:1;
+  }
   .dock{
     pointer-events:none;
     display:flex;
