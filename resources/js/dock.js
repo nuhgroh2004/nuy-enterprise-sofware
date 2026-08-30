@@ -83,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const url = new URL(href, window.location.origin);
-        if (url.pathname === currentPath) {
+        const dockPath = url.pathname;
+        const isActive = currentPath === dockPath || currentPath.startsWith(dockPath + '/');
+        if (isActive) {
             item.classList.add('active');
             if (!item.querySelector('.dock-dot')) {
                 const dot = document.createElement('span');
