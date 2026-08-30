@@ -50,6 +50,16 @@
         dockAutoHide.checked = localStorage.getItem('dockAutoHide') !== 'false';
         dockAutoHide.addEventListener('change', () => {
             localStorage.setItem('dockAutoHide', dockAutoHide.checked);
+            const dockWrap = document.querySelector('.dock-wrap');
+            if (dockWrap) {
+                if (dockAutoHide.checked) {
+                    dockWrap.classList.remove('always-show');
+                    dockWrap.classList.remove('show');
+                } else {
+                    dockWrap.classList.add('always-show');
+                    dockWrap.classList.add('show');
+                }
+            }
         });
     }
 

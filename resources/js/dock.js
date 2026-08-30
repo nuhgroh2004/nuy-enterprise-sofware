@@ -14,6 +14,7 @@ document.querySelectorAll('.dock-item[data-title]').forEach(item => {
 
   if (!autoHide) {
     dockWrap.classList.add('show');
+    dockWrap.classList.add('always-show');
     return;
   }
 
