@@ -8,14 +8,16 @@
     <div>
         <h1 id="pageTitle">Production Planning</h1>
         <div class="sub" id="pageSub">
-            Rencana produksi aktif — Agustus 2026
+            Rencana produksi aktif — {{ now()->format('F Y') }}
         </div>
     </div>
     <div class="header-actions">
         <button class="btn-ghost">Ekspor</button>
-        <button class="btn-primary">+ Buat Jadwal</button>
+        <button class="btn-primary" id="btnCreateSchedule">+ Buat Jadwal</button>
     </div>
 </div>
+
+{{-- STATISTICS --}}
 <div class="stats-grid">
     <div class="stat-card">
         <div class="top">
@@ -25,9 +27,9 @@
                     <path d="M3 9h18"/>
                 </svg>
             </span>
-            <span class="delta up">▲ 5.2%</span>
+            <span class="delta up" id="statActiveDelta">—</span>
         </div>
-        <div class="value">36 Jadwal</div>
+        <div class="value" id="statActiveSchedules">{{ $activeCount }} Jadwal</div>
         <div class="label">Jadwal Produksi Aktif</div>
     </div>
     <div class="stat-card">
@@ -38,9 +40,9 @@
                     <path d="M3 8v8l9 5 9-5V8"/>
                 </svg>
             </span>
-            <span class="delta flat">142.000 unit</span>
+            <span class="delta flat" id="statPlannedDelta">{{ number_format($totalPlanned) }} unit</span>
         </div>
-        <div class="value">142.000 unit</div>
+        <div class="value" id="statTotalPlanned">{{ number_format($totalPlanned) }} unit</div>
         <div class="label">Total Planned Quantity</div>
     </div>
     <div class="stat-card">
@@ -50,10 +52,10 @@
                     <path d="M4 19h16M8 19V9m4 10V5m4 14v-7"/>
                 </svg>
             </span>
-            <span class="delta up">▲ 4.0%</span>
+            <span class="delta up" id="statUtilDelta">—</span>
         </div>
-        <div class="value">86%</div>
-        <div class="label">Rata-rata Utilisasi Kapasitas</div>
+        <div class="value" id="statScheduleCount">{{ $scheduleCount }}</div>
+        <div class="label">Total Schedules</div>
     </div>
     <div class="stat-card">
         <div class="top">
@@ -62,180 +64,111 @@
                     <path d="M12 9v4m0 4h.01M10.3 3.86L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.86a2 2 0 00-3.4 0z"/>
                 </svg>
             </span>
-            <span class="delta down">▼ 2 jadwal</span>
+            <span class="delta down" id="statDelayedDelta">—</span>
         </div>
-        <div class="value">4 Jadwal</div>
-        <div class="label">Prioritas Tinggi / Tertunda</div>
+        <div class="value" id="statDelayedCount">0</div>
+        <div class="label">Delayed / Overdue</div>
     </div>
 </div>
-<div class="row2">
-    <div class="panel">
-        <h3>Kalender Produksi</h3>
-        <div class="sub">
-            Beban produksi harian — minggu ke-4 Agustus 2026
-        </div>
-        <div class="cal-grid">
-            <div class="cal-cell load-mid"><span class="d">18</span>Sen</div>
-            <div class="cal-cell load-high"><span class="d">19</span>Sel</div>
-            <div class="cal-cell load-high"><span class="d">20</span>Rab</div>
-            <div class="cal-cell load-mid"><span class="d">21</span>Kam</div>
-            <div class="cal-cell load-low"><span class="d">22</span>Jum</div>
-            <div class="cal-cell"><span class="d">23</span>Sab</div>
-            <div class="cal-cell"><span class="d">24</span>Min</div>
-            <div class="cal-cell load-high"><span class="d">25</span>Sen</div>
-            <div class="cal-cell load-mid"><span class="d">26</span>Sel</div>
-            <div class="cal-cell load-mid"><span class="d">27</span>Rab</div>
-            <div class="cal-cell load-low"><span class="d">28</span>Kam</div>
-            <div class="cal-cell load-high"><span class="d">29</span>Jum</div>
-            <div class="cal-cell"><span class="d">30</span>Sab</div>
-            <div class="cal-cell"><span class="d">31</span>Min</div>
-        </div>
-        <div class="cal-legend">
-            <span>
-                <span class="dot red"></span>
-                Beban Tinggi
-            </span>
-            <span>
-                <span class="dot orange"></span>
-                Beban Sedang
-            </span>
-            <span>
-                <span class="dot green"></span>
-                Beban Rendah
-            </span>
-        </div>
-    </div>
-    <div class="panel">
-        <h3>Utilisasi Work Center</h3>
-        <div class="sub">
-            Kapasitas terpakai per lini produksi
-        </div>
-        <div class="capacity-list">
-            <div class="capacity-row">
-                <div class="top-row">
-                    <span class="name">Lini Perakitan 1</span>
-                    <span class="pct">104%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill over" style="width:100%"></div>
-                </div>
-            </div>
-            <div class="capacity-row">
-                <div class="top-row">
-                    <span class="name">Lini Perakitan 2</span>
-                    <span class="pct">88%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width:88%"></div>
-                </div>
-            </div>
-            <div class="capacity-row">
-                <div class="top-row">
-                    <span class="name">Lini Jahit</span>
-                    <span class="pct">76%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width:76%"></div>
-                </div>
-            </div>
-            <div class="capacity-row">
-                <div class="top-row">
-                    <span class="name">Lini Packing</span>
-                    <span class="pct">62%</span>
-                </div>
-                <div class="bar-track">
-                    <div class="bar-fill" style="width:62%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+{{-- SCHEDULE TABLE --}}
 <div class="panel">
-    <h3>Jadwal Produksi</h3>
-    <div class="sub">
-        Product, kuantitas, tanggal, dan prioritas produksi
+    <div class="panel-heading">
+        <div>
+            <h3>Jadwal Produksi</h3>
+            <div class="sub">
+                Product, kuantitas, tanggal, dan prioritas produksi
+            </div>
+        </div>
+        <div class="table-actions">
+            <button class="btn-ghost">Riwayat</button>
+            <button class="btn-primary" id="btnNewSchedule">+ Buat Jadwal</button>
+        </div>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Produk</th>
-                <th>Planned Qty</th>
-                <th>Mulai</th>
-                <th>Selesai</th>
-                <th>Prioritas</th>
-                <th>Work Center</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Kulkas 2 Pintu 300L</td>
-                <td>1.200</td>
-                <td>25 Agu 2026</td>
-                <td>29 Agu 2026</td>
-                <td>
-                    <span class="prio high">Tinggi</span>
-                </td>
-                <td>Lini Perakitan 1</td>
-                <td>
-                    <span class="status ongoing">Berjalan</span>
-                </td>
-            </tr>
-            <tr>
-                <td>Kemeja Katun Pria</td>
-                <td>6.000</td>
-                <td>26 Agu 2026</td>
-                <td>30 Agu 2026</td>
-                <td>
-                    <span class="prio medium">Sedang</span>
-                </td>
-                <td>Lini Jahit</td>
-                <td>
-                    <span class="status scheduled">Terjadwal</span>
-                </td>
-            </tr>
-            <tr>
-                <td>Blender 500W</td>
-                <td>2.400</td>
-                <td>20 Agu 2026</td>
-                <td>24 Agu 2026</td>
-                <td>
-                    <span class="prio low">Rendah</span>
-                </td>
-                <td>Lini Perakitan 2</td>
-                <td>
-                    <span class="status done">Selesai</span>
-                </td>
-            </tr>
-            <tr>
-                <td>Sepatu Sneakers Wanita</td>
-                <td>3.800</td>
-                <td>19 Agu 2026</td>
-                <td>27 Agu 2026</td>
-                <td>
-                    <span class="prio high">Tinggi</span>
-                </td>
-                <td>Lini Perakitan 1</td>
-                <td>
-                    <span class="status delayed">Tertunda</span>
-                </td>
-            </tr>
-            <tr>
-                <td>Rice Cooker 1.8L</td>
-                <td>1.900</td>
-                <td>29 Agu 2026</td>
-                <td>2 Sep 2026</td>
-                <td>
-                    <span class="prio medium">Sedang</span>
-                </td>
-                <td>Lini Packing</td>
-                <td>
-                    <span class="status scheduled">Terjadwal</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <div class="filter-row">
+        <div class="search-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M21 21l-4.3-4.3"/>
+            </svg>
+            <input type="text" id="mpsSearchInput" placeholder="Cari produk..."
+                style="border:none;background:transparent;outline:none;width:100%;font-size:12px;color:var(--text-1);">
+        </div>
+        <select id="mpsFilterStatus">
+            <option value="">Semua Status</option>
+            <option value="draft">Draft</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="frozen">Frozen</option>
+            <option value="cancelled">Cancelled</option>
+        </select>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dokumen</th>
+                    <th>Plant</th>
+                    <th>Plan Date</th>
+                    <th>Period</th>
+                    <th>Total Lines</th>
+                    <th>Total Qty</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="mpsTableBody">
+                @forelse($schedules as $schedule)
+                <tr data-mps-id="{{ $schedule->id }}">
+                    <td>
+                        <strong>{{ $schedule->document_number }}</strong>
+                    </td>
+                    <td>{{ $schedule->plant->name ?? '—' }}</td>
+                    <td>{{ $schedule->plan_date->format('d M Y') }}</td>
+                    <td>{{ $schedule->from_date->format('d M') }} — {{ $schedule->to_date->format('d M Y') }}</td>
+                    <td class="num">{{ $schedule->lines->count() }}</td>
+                    <td class="num">{{ number_format($schedule->lines->sum('planned_quantity'), 0, ',', '.') }}</td>
+                    <td>
+                        @php
+                            $statusClass = match($schedule->status) {
+                                'draft' => 'draft',
+                                'confirmed' => 'ongoing',
+                                'frozen' => 'scheduled',
+                                'cancelled' => 'delayed',
+                                default => 'draft',
+                            };
+                        @endphp
+                        <span class="status {{ $statusClass }}">{{ ucfirst($schedule->status) }}</span>
+                    </td>
+                    <td>
+                        @if($schedule->status === 'draft')
+                            <button class="btn-ghost" style="padding:4px 8px;font-size:11px;"
+                                onclick="submitMps({{ $schedule->id }})">Submit</button>
+                            <button class="btn-ghost" style="padding:4px 8px;font-size:11px;color:var(--red);"
+                                onclick="deleteMps({{ $schedule->id }})">Hapus</button>
+                        @endif
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="8" style="text-align:center;color:var(--text-2);padding:40px 0;">
+                        Belum ada jadwal produksi. Klik "+ Buat Jadwal" untuk memulai.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    @if($schedules->hasPages())
+    <div style="display:flex;justify-content:center;margin-top:14px;">
+        {{ $schedules->links() }}
+    </div>
+    @endif
 </div>
+
+{{-- FEATURES --}}
 <div class="panel">
     <h3>Fitur Master Production Schedule</h3>
     <div class="sub">
@@ -250,9 +183,7 @@
                 </svg>
             </span>
             <div class="t">Production Planning</div>
-            <div class="d">
-                Susun rencana produksi berdasarkan demand dan kapasitas.
-            </div>
+            <div class="d">Susun rencana produksi berdasarkan demand dan kapasitas.</div>
         </div>
         <div class="feature-tile">
             <span class="sq yellow-gradient">
@@ -262,9 +193,7 @@
                 </svg>
             </span>
             <div class="t">Production Calendar</div>
-            <div class="d">
-                Lihat sebaran jadwal produksi dalam tampilan kalender.
-            </div>
+            <div class="d">Lihat sebaran jadwal produksi dalam tampilan kalender.</div>
         </div>
         <div class="feature-tile">
             <span class="sq blue-gradient">
@@ -273,9 +202,7 @@
                 </svg>
             </span>
             <div class="t">Capacity Planning</div>
-            <div class="d">
-                Pantau dan atur kapasitas work center agar tidak overload.
-            </div>
+            <div class="d">Pantau dan atur kapasitas work center agar tidak overload.</div>
         </div>
         <div class="feature-tile">
             <span class="sq purple-gradient">
@@ -287,9 +214,7 @@
                 </svg>
             </span>
             <div class="t">Schedule Adjustment</div>
-            <div class="d">
-                Geser atau ubah jadwal produksi saat ada perubahan mendadak.
-            </div>
+            <div class="d">Geser atau ubah jadwal produksi saat ada perubahan mendadak.</div>
         </div>
         <div class="feature-tile">
             <span class="sq red-gradient">
@@ -298,10 +223,92 @@
                 </svg>
             </span>
             <div class="t">Priority</div>
-            <div class="d">
-                Tentukan urutan prioritas pengerjaan antar jadwal produksi.
-            </div>
+            <div class="d">Tentukan urutan prioritas pengerjaan antar jadwal produksi.</div>
         </div>
+    </div>
+</div>
+
+{{-- MPS CREATE MODAL --}}
+<div id="mpsModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+    <div style="background:var(--card-bg);border-radius:16px;padding:24px;width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 style="margin:0;">Buat Jadwal Produksi</h3>
+            <button id="closeMpsModal" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-2);">&times;</button>
+        </div>
+        <form id="mpsForm">
+            @csrf
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div>
+                    <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">Company ID</label>
+                    <input type="number" name="company_id" required
+                        style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">Plant ID</label>
+                    <input type="number" name="plant_id" required
+                        style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;">
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
+                <div>
+                    <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">Plan Date</label>
+                    <input type="date" name="plan_date" required
+                        style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">From Date</label>
+                    <input type="date" name="from_date" required
+                        style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;">
+                </div>
+                <div>
+                    <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">To Date</label>
+                    <input type="date" name="to_date" required
+                        style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;">
+                </div>
+            </div>
+            <div style="margin-bottom:12px;">
+                <label style="font-size:11px;color:var(--text-2);display:block;margin-bottom:4px;">Notes</label>
+                <textarea name="notes" rows="2"
+                    style="width:100%;padding:8px;border:1px solid var(--divider);border-radius:8px;font-size:12px;resize:vertical;"></textarea>
+            </div>
+
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                    <label style="font-size:12px;font-weight:600;">MPS Lines</label>
+                    <button type="button" id="addMpsLine" class="btn-ghost" style="padding:4px 10px;font-size:11px;">+ Tambah Line</button>
+                </div>
+                <div id="mpsLinesContainer">
+                    <div class="mps-line" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:end;">
+                        <div>
+                            <label style="font-size:10px;color:var(--text-2);">Product ID</label>
+                            <input type="number" name="lines[0][product_id]" required
+                                style="width:100%;padding:6px;border:1px solid var(--divider);border-radius:6px;font-size:11px;">
+                        </div>
+                        <div>
+                            <label style="font-size:10px;color:var(--text-2);">UOM ID</label>
+                            <input type="number" name="lines[0][uom_id]" required
+                                style="width:100%;padding:6px;border:1px solid var(--divider);border-radius:6px;font-size:11px;">
+                        </div>
+                        <div>
+                            <label style="font-size:10px;color:var(--text-2);">Planned Qty</label>
+                            <input type="number" name="lines[0][planned_quantity]" step="0.0001" min="0.0001" required
+                                style="width:100%;padding:6px;border:1px solid var(--divider);border-radius:6px;font-size:11px;">
+                        </div>
+                        <div>
+                            <label style="font-size:10px;color:var(--text-2);">Planned Date</label>
+                            <input type="date" name="lines[0][planned_date]" required
+                                style="width:100%;padding:6px;border:1px solid var(--divider);border-radius:6px;font-size:11px;">
+                        </div>
+                        <button type="button" class="removeMpsLine btn-ghost" style="padding:4px 8px;font-size:11px;color:var(--red);">&times;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button type="button" id="cancelMpsModal" class="btn-ghost">Batal</button>
+                <button type="submit" class="btn-primary">Simpan Jadwal</button>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
