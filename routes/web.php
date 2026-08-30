@@ -44,6 +44,7 @@ Route::get('/MRP/production-report', function () {return view('MRP&Production.pa
 Route::get('/MRP/production-efficiency', function () {return view('MRP&Production.page.production-efficiency');})->name('mrp.production-efficiency');
 Route::get('/MRP/waste-scrap', function () {return view('MRP&Production.page.waste-scrap');})->name('mrp.waste-scrap');
 Route::get('/MRP/machine-utilization', function () {return view('MRP&Production.page.machine-utilization');})->name('mrp.machine-utilization');
+Route::get('/MRP/general-settings', function () {return view('MRP&Production.page.general-settings');})->name('mrp.general-settings');
 Route::get('/MRP/production-settings', function () {return view('MRP&Production.page.production-settings');})->name('mrp.production-settings');
 Route::get('/MRP/production-calendar', function () {return view('MRP&Production.page.production-calendar');})->name('mrp.production-calendar');
 Route::get('/MRP/units', function () {return view('MRP&Production.page.units');})->name('mrp.units');

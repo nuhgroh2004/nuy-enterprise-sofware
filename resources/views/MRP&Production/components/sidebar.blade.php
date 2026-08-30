@@ -806,7 +806,7 @@
     <div class="submenu {{ request()->is('MRP/general-settings') || request()->is('MRP/production-settings') || request()->is('MRP/production-calendar') || request()->is('MRP/units') || request()->is('MRP/numbering') ? 'open' : '' }}"
          id="submenu-settings">
 
-        <a href=""
+        <a href="{{ route('mrp.general-settings') }}"
            class="subnavitem {{ request()->route()->getName() === 'mrp.general-settings' ? 'active' : '' }}">
             <span class="sub-ico" style="background:rgba(99,99,102,0.15);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#636366" stroke-width="2">
